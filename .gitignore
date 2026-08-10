@@ -1,0 +1,20 @@
+# Assignment brief (not part of the deliverable)
+FDE Assignment - AI Infrastructure.docx.pdf
+
+# OS / editor
+.DS_Store
+
+# Env / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Node
+node_modules/
