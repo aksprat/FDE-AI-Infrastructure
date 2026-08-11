@@ -14,5 +14,5 @@ output "database_connection_uri" {
 }
 
 output "spaces_bucket" {
-  value = digitalocean_spaces_bucket.uploads.name
+  value = aws_s3_bucket.uploads.bucket
 }

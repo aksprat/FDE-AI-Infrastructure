@@ -13,6 +13,16 @@ resource "digitalocean_app" "halcyon" {
     name   = "halcyon-labs"
     region = var.region
 
+    # DEPLOYMENT_FAILED is only a valid rule at the app level, not inside a
+    # service/worker component's alert block (decision #7 — this is the
+    # native alert we rely on instead of building custom monitoring).
+    alert {
+      rule = "DEPLOYMENT_FAILED"
+      destinations {
+        emails = [var.alert_email]
+      }
+    }
+
     # Binds the externally-managed cluster from database.tf as an app
     # component, which is what exposes the ${db.DATABASE_URL} bindable
     # variable referenced by every component below.
@@ -93,7 +103,7 @@ resource "digitalocean_app" "halcyon" {
       }
       env {
         key   = "SPACES_BUCKET"
-        value = digitalocean_spaces_bucket.uploads.name
+        value = aws_s3_bucket.uploads.bucket
       }
       env {
         key   = "SPACES_ACCESS_KEY"
@@ -106,17 +116,6 @@ resource "digitalocean_app" "halcyon" {
         type  = "SECRET"
       }
 
-      # operator/value/window are structurally required by the provider
-      # schema but unused by DEPLOYMENT_FAILED, which isn't a metric threshold.
-      alert {
-        rule     = "DEPLOYMENT_FAILED"
-        operator = "GREATER_THAN"
-        value    = 0
-        window   = "FIVE_MINUTES"
-        destinations {
-          emails = [var.alert_email]
-        }
-      }
     }
 
     # Background worker (decisions #3, #4, #5). No autoscaling block: App
@@ -153,7 +152,7 @@ resource "digitalocean_app" "halcyon" {
       }
       env {
         key   = "SPACES_BUCKET"
-        value = digitalocean_spaces_bucket.uploads.name
+        value = aws_s3_bucket.uploads.bucket
       }
       env {
         key   = "SPACES_ACCESS_KEY"
@@ -181,16 +180,6 @@ resource "digitalocean_app" "halcyon" {
       # lease-reclaim sweep as the routine path (decision #6).
       termination {
         grace_period_seconds = 400
-      }
-
-      alert {
-        rule     = "DEPLOYMENT_FAILED"
-        operator = "GREATER_THAN"
-        value    = 0
-        window   = "FIVE_MINUTES"
-        destinations {
-          emails = [var.alert_email]
-        }
       }
     }
   }
