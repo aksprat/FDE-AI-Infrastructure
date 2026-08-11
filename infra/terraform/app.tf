@@ -10,7 +10,7 @@ locals {
 
 resource "digitalocean_app" "halcyon" {
   spec {
-    name   = "halcyon-labs-v2"
+    name   = "halcyon-labs-v3"
     region = var.region
 
     # DEPLOYMENT_FAILED is only a valid rule at the app level, not inside a
