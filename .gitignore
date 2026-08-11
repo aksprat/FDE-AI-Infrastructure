@@ -14,7 +14,12 @@ FDE Assignment - AI Infrastructure.docx.pdf
 .terraform/
 *.tfstate
 *.tfstate.*
-.terraform.lock.hcl
+*.tfvars
+!*.tfvars.example
 
 # Node
 node_modules/
+
+# Python
+__pycache__/
+*.pyc

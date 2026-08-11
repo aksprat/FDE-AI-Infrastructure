@@ -1,0 +1,10 @@
+# Copy to terraform.tfvars (gitignored) and fill in real values.
+# Do not commit terraform.tfvars — it holds live credentials.
+
+do_token           = "dop_v1_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+github_repo        = "your-github-username/FDE-AI-Infrastructure"
+github_branch      = "main"
+inference_api_key  = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+inference_model    = "llama3.3-70b-instruct"
+alert_email        = "dana@halcyonlabs.example"
+region             = "nyc3"
