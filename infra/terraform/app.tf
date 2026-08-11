@@ -57,6 +57,22 @@ resource "digitalocean_app" "halcyon" {
         scope = "RUN_TIME"
         type  = "SECRET"
       }
+
+      # Postgres 15+ doesn't grant CREATE on the public schema to new roles
+      # by default. Only the migrate job gets admin credentials, and only to
+      # run one idempotent GRANT before switching to the app's own
+      # unprivileged connection for everything else (see migrate.py).
+      env {
+        key   = "ADMIN_DATABASE_URL"
+        value = "postgresql://${digitalocean_database_cluster.postgres.user}:${digitalocean_database_cluster.postgres.password}@${digitalocean_database_cluster.postgres.host}:${digitalocean_database_cluster.postgres.port}/${digitalocean_database_db.app.name}?sslmode=require"
+        scope = "RUN_TIME"
+        type  = "SECRET"
+      }
+      env {
+        key   = "APP_DB_USER"
+        value = digitalocean_database_user.app.name
+        scope = "RUN_TIME"
+      }
     }
 
     # API service. Native git-push-to-deploy (decision #6) — no custom

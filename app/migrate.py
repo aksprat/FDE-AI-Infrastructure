@@ -8,7 +8,23 @@ import os
 import psycopg
 
 
+def grant_app_privileges() -> None:
+    """Postgres 15+ revokes CREATE on the public schema from new roles by
+    default. Runs once (idempotently — GRANT is safe to repeat) using an
+    admin connection, only if one is provided, so the app's own migration
+    connection never needs elevated privileges."""
+    admin_conninfo = os.environ.get("ADMIN_DATABASE_URL")
+    if not admin_conninfo:
+        return
+    app_user = os.environ["APP_DB_USER"]
+    with psycopg.connect(admin_conninfo, autocommit=True) as conn:
+        conn.execute(f"GRANT USAGE, CREATE ON SCHEMA public TO {app_user}")
+    print(f"granted USAGE, CREATE on schema public to {app_user}")
+
+
 def main() -> None:
+    grant_app_privileges()
+
     conninfo = os.environ["DATABASE_URL"]
     migration_dir = os.path.join(os.path.dirname(__file__), "migrations")
 
