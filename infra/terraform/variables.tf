@@ -4,6 +4,18 @@ variable "do_token" {
   sensitive   = true
 }
 
+variable "spaces_access_id" {
+  description = "Account-level Spaces access key ID (Settings > API > Spaces Keys in the DO control panel) — needed by the provider itself to manage Spaces buckets, separate from do_token."
+  type        = string
+  sensitive   = true
+}
+
+variable "spaces_secret_key" {
+  description = "Account-level Spaces secret key, paired with spaces_access_id"
+  type        = string
+  sensitive   = true
+}
+
 variable "region" {
   description = "DigitalOcean region"
   type        = string

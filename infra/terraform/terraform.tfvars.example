@@ -2,6 +2,9 @@
 # Do not commit terraform.tfvars — it holds live credentials.
 
 do_token           = "dop_v1_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+# Generate at: DO control panel > Settings > API > Spaces Keys > Generate New Key
+spaces_access_id   = "xxxxxxxxxxxxxxxxxxxx"
+spaces_secret_key  = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 github_repo        = "your-github-username/FDE-AI-Infrastructure"
 github_branch      = "main"
 inference_api_key  = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"

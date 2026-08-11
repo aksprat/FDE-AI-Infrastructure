@@ -16,6 +16,10 @@ FDE Assignment - AI Infrastructure.docx.pdf
 *.tfstate.*
 *.tfvars
 !*.tfvars.example
+# Saved plan files store sensitive values in plaintext regardless of the
+# "sensitive" markers used for CLI display — never commit these.
+tfplan
+*.tfplan
 
 # Node
 node_modules/
