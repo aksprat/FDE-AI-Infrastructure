@@ -126,7 +126,11 @@ resource "digitalocean_app" "halcyon" {
     worker {
       name               = "worker"
       instance_count     = var.worker_instance_count
-      instance_size_slug = "apps-s-1vcpu-0.5gb"
+      # apps-s-1vcpu-0.5gb (the cheapest tier, used for the API and migrate
+      # job) caps instance_count at 1 — can't run multiple replicas on it at
+      # all, which breaks the burst-scaling story from decision #5. Next
+      # tier up removes that cap.
+      instance_size_slug = "apps-s-1vcpu-1gb"
       source_dir         = local.app_source_dir
       run_command        = "python worker.py"
 
