@@ -4,7 +4,9 @@
 resource "digitalocean_spaces_bucket" "uploads" {
   name   = "halcyon-contract-uploads"
   region = var.region
-  acl    = "private"
+  # No explicit acl: DO Spaces buckets are private by default, and setting
+  # acl explicitly triggers a PutBucketAcl call that DO Spaces' S3-compatible
+  # API returns 501 Not Implemented for.
 }
 
 resource "digitalocean_spaces_key" "app" {
